@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import Landing from "./Views/Landing";
+import Main from "./Views/Main";
 
-function App() {
+const App = () => {
+  const [username, setUsername] = useState(null);
+
+  const modifyUsername = (val) => {
+    setUsername(val);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <Switch>
+        <Route
+          path="/"
+          render={(props) => (
+            <Landing
+              {...props}
+              modifyUsername={modifyUsername}
+              username={username}
+            />
+          )}
+          exact
+        />
+        <Route
+          path="/chat"
+          render={(props) => <Main {...props} username={username} />}
+        />
+      </Switch>
+    </main>
   );
-}
+};
 
 export default App;
